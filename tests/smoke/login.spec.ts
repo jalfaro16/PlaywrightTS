@@ -22,10 +22,8 @@ test.describe('Login Tests', () => {
 
   test('should login successfully', async ({ page, loginPage }) => {
     await loginPage.login(user, pass);
-    await expect(page).toHaveURL('/angularpractice/shop', {
-timeout: 60_000,
-});
-});
+    await expect(page).toHaveURL('/angularpractice/shop'
+    );  });
 
   test('should show error message on failed login', async ({ loginPage }) => {
     await loginPage.login("test", "123");
