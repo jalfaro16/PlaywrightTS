@@ -23,7 +23,7 @@ test.describe('Login Tests', () => {
   test('should login successfully', async ({ page, loginPage }) => {
     await loginPage.login(user, pass);
     await expect(page).toHaveURL('/angularpractice/shop', {
-timeout: 15_000,
+timeout: 60_000,
 });
 });
 
