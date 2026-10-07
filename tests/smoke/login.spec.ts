@@ -11,8 +11,8 @@ test.describe('Login Tests', () => {
 // const pass = decodeBase64(process.env.Password!);
 
   //Using AES-256-CBC decryption for credentials
-  const user = decrypt(process.env.User!);
-  const pass = decrypt(process.env.Password!);
+  const user = decrypt(process.env.USER!);
+  const pass = decrypt(process.env.PASSWORD!);
 
 
   test.beforeEach(async ({ loginPage }) => {

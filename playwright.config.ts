@@ -26,7 +26,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     
-    baseURL: process.env.Base_URL, // to use in actions like `await page.goto('')`. */
+    baseURL: process.env.BASE_URL, // to use in actions like `await page.goto('')`. */
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     trace: 'on-first-retry', 
@@ -38,9 +38,6 @@ export default defineConfig({
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'],
-             headless: false,
-             launchOptions: {
-              slowMo: 1000, // Slow down by 100ms
             },
            
       
