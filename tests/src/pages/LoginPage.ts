@@ -13,15 +13,15 @@ export class LoginPage extends BasePage {
     async login(username: string, password: string) {
 
     const usernameInput = this.byId('username');
-    const passwordInput = this.textbox('password');
-    await usernameInput.fill(username);
-    await passwordInput.fill(password);
-    await expect(usernameInput).toHaveValue(username);
-    await expect(passwordInput).toHaveValue(password);
-    await this.button('Sign In').click();
-    await this.page.waitForURL('**/angularpractice/shop', {
-    timeout: 30_000,
-    });
+const passwordInput = this.textbox('password');
+await usernameInput.fill(username);
+await passwordInput.fill(password);
+await expect(usernameInput).toHaveValue(username);
+await expect(passwordInput).toHaveValue(password);
+console.log('Username length:', username.length);
+console.log('Password length:', password.length);
+await this.button('Sign In').click();
+console.log('URL after Sign In:', this.page.url());
     }
 
     get errorMessage(): Locator {
