@@ -3,11 +3,11 @@ name: Playwright Tests
 on:
   workflow_dispatch:
     inputs:
-      test_folder:
+      test_suite:
         type: choice
-        description: 'Select the suite of tests to run manually'
+        description: 'Selecciona la etiqueta de pruebas a ejecutar manualmente'
         required: true
-        default: 'smoke' 
+        default: 'smoke'
         options:
           - 'smoke'
           - 'regression'
@@ -25,10 +25,10 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-          BASE_URL: ${{ secrets.BASE_URL }}
-          ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
-          USER: ${{ secrets.USER }}
-          PASSWORD: ${{ secrets.PASSWORD }}
+      BASE_URL: ${{ secrets.BASE_URL }}
+      ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
+      APP_USER: ${{ secrets.USER }}
+      PASSWORD: ${{ secrets.PASSWORD }}
 
     steps:
       - uses: actions/checkout@v4
@@ -45,15 +45,15 @@ jobs:
 
       - name: Run Playwright tests
         run: |
-          if [ "${{ github.event.inputs.test_folder }}" = "regression" ]; then
-            echo "Executing REGRESSION suite manually..."
-            npx playwright test tests/regression
-          elif [ "${{ github.event.inputs.test_folder }}" = "all" ]; then
-            echo "Executing ALL tests manually..."
+          if [ "${{ github.event.inputs.test_suite }}" = "regression" ]; then
+            echo "🚀 Ejecutando suite de REGRESSION manualmente..."
+            npx playwright test --grep @regression
+          elif [ "${{ github.event.inputs.test_suite }}" = "all" ]; then
+            echo "🚀 Ejecutando TODO el proyecto manualmente..."
             npx playwright test
           else
-            echo "Executing SMOKE suite (Default or automatically activated)..."
-            npx playwright test tests/smoke
+            echo "🚀 Ejecutando suite de SMOKE (Por defecto o automático por cambio en código)..."
+            npx playwright test --grep @smoke
           fi
 
       - uses: actions/upload-artifact@v4

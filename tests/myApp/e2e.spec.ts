@@ -16,7 +16,7 @@ await test.step('Go to Login Page', async () => {
 });
   });
 
-    test('Add items to shopping cart and confir purchase', async ({ page, loginPage, homePage, checkoutPage, purchasePage }) => {
+    test('Add items to shopping cart and confir purchase',{ tag: '@regression' }, async ({ page, loginPage, homePage, checkoutPage, purchasePage }) => {
       await loginPage.login(user, pass);
       //Verify URL after login.
       await expect(page).toHaveURL('/angularpractice/shop');

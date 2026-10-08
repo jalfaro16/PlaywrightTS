@@ -19,13 +19,13 @@ test.describe('Login Tests', () => {
     await loginPage.goto();
   });});
 
-  test('should login successfully', async ({ page, loginPage }) => {
+  test('should login successfully',{ tag: '@smoke' }, async ({ page, loginPage }) => {
 
     await loginPage.login(user, pass);
     await expect(page).toHaveURL('/angularpractice/shop');
   });
 
-  test('should show error message on failed login', async ({ loginPage }) => {
+  test('should show error message on failed login',{ tag: '@regression' }, async ({ loginPage }) => {
     await loginPage.login("test", "123");
     await expect(loginPage.errorMessage).toBeVisible();
     await expect(loginPage.errorMessage).toHaveText('Incorrect username/password.');   
