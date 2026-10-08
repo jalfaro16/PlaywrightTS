@@ -2,17 +2,16 @@ name: Playwright Tests
 
 on:
   workflow_dispatch:
-    # 1. Definimos el menú desplegable en GitHub
     inputs:
       test_folder:
         type: choice
-        description: 'Selecciona la suite de pruebas a ejecutar'
+        description: 'Selecciona la suite de pruebas a ejecutar manualmente'
         required: true
-        default: 'all'
+        default: 'smoke' # Ahora por defecto apunta a smoke
         options:
-          - 'all'
           - 'smoke'
           - 'regression'
+          - 'all'
 
   push:
     branches: [ main, master ]
@@ -28,7 +27,7 @@ jobs:
     env:
           BASE_URL: ${{ secrets.BASE_URL }}
           ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
-          USER: ${{ secrets.TEST_USER }} # Consejo: Cambiar USER a TEST_USER para evitar conflictos con Linux
+          USER: ${{ secrets.USER }}
           PASSWORD: ${{ secrets.PASSWORD }}
 
     steps:
@@ -44,15 +43,18 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps chromium
 
-      # 2. Modificamos el comando de ejecución para leer la carpeta seleccionada
+      # La nueva lógica condicional corregida:
       - name: Run Playwright tests
         run: |
-          if [ "${{ github.event.inputs.test_folder }}" = "smoke" ]; then
-            npx playwright test tests/smoke
-          elif [ "${{ github.event.inputs.test_folder }}" = "regression" ]; then
+          if [ "${{ github.event.inputs.test_folder }}" = "regression" ]; then
+            echo "Ejecutando suite de REGRESSION manualmente..."
             npx playwright test tests/regression
-          else
+          elif [ "${{ github.event.inputs.test_folder }}" = "all" ]; then
+            echo "Ejecutando TODO el proyecto manualmente..."
             npx playwright test
+          else
+            echo "Ejecutando suite de SMOKE (Por defecto o activado automáticamente)..."
+            npx playwright test tests/smoke
           fi
 
       - uses: actions/upload-artifact@v4
