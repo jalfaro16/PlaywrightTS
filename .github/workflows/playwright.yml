@@ -27,7 +27,7 @@ jobs:
     env:
       BASE_URL: ${{ secrets.BASE_URL }}
       ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
-      APP_USER: ${{ secrets.USER }}
+      USER: ${{ secrets.USER }}
       PASSWORD: ${{ secrets.PASSWORD }}
 
     steps:
