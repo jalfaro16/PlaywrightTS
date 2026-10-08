@@ -3,7 +3,6 @@ import { expect } from '@playwright/test';
 import { decodeBase64 } from 'tests/src/utils/base64';
 import { decrypt } from 'tests/src/utils/crypto';
 
-
 test.describe('Login Tests', () => {
 
 // base64 decode

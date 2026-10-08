@@ -2,9 +2,13 @@ import { test} from '@fixtures/test-fixtures';
 import { expect } from '@playwright/test';
 import data from '@test-data/data.json';
 import dataCounty from '@test-data/countries.json';
-
+import { decrypt } from 'tests/src/utils/crypto';
 
 test.describe('E2E Verification', () => {
+
+//Using AES-256-CBC decryption for credentials
+  const user = decrypt(process.env.USER!);
+  const pass = decrypt(process.env.PASSWORD!);
 
 test.beforeEach(async ({ loginPage }) => {
 await test.step('Go to Login Page', async () => {
@@ -12,8 +16,8 @@ await test.step('Go to Login Page', async () => {
 });
   });
 
-    test.skip('Add items to shopping cart and confir purchase', async ({ page, loginPage, homePage, checkoutPage, purchasePage }) => {
-      await loginPage.login(process.env.USER!, process.env.PASSWORD!);
+    test('Add items to shopping cart and confir purchase', async ({ page, loginPage, homePage, checkoutPage, purchasePage }) => {
+      await loginPage.login(user, pass);
       //Verify URL after login.
       await expect(page).toHaveURL('/angularpractice/shop');
 
