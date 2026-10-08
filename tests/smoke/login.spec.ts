@@ -21,15 +21,10 @@ test.describe('Login Tests', () => {
   });});
 
   test('should login successfully', async ({ page, loginPage }) => {
-test.setTimeout(90_000);
-console.log('USER exists:', !!process.env.USER);
-console.log('PASSWORD exists:', !!process.env.PASSWORD);
-console.log('ENCRYPTION_KEY exists:', !!process.env.ENCRYPTION_KEY);
-await loginPage.login(user, pass);
-await expect(page).toHaveURL('/angularpractice/shop', {
-timeout: 30_000,
-});
-});
+
+    await loginPage.login(user, pass);
+    await expect(page).toHaveURL('/angularpractice/shop');
+  });
 
   test('should show error message on failed login', async ({ loginPage }) => {
     await loginPage.login("test", "123");

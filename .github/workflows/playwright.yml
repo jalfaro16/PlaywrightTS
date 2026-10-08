@@ -2,6 +2,17 @@ name: Playwright Tests
 
 on:
   workflow_dispatch:
+    # 1. Definimos el menú desplegable en GitHub
+    inputs:
+      test_folder:
+        type: choice
+        description: 'Selecciona la suite de pruebas a ejecutar'
+        required: true
+        default: 'all'
+        options:
+          - 'all'
+          - 'smoke'
+          - 'regression'
 
   push:
     branches: [ main, master ]
@@ -17,7 +28,7 @@ jobs:
     env:
           BASE_URL: ${{ secrets.BASE_URL }}
           ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
-          USER: ${{ secrets.USER }}
+          USER: ${{ secrets.TEST_USER }} # Consejo: Cambiar USER a TEST_USER para evitar conflictos con Linux
           PASSWORD: ${{ secrets.PASSWORD }}
 
     steps:
@@ -33,8 +44,16 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps chromium
 
+      # 2. Modificamos el comando de ejecución para leer la carpeta seleccionada
       - name: Run Playwright tests
-        run: npx playwright test
+        run: |
+          if [ "${{ github.event.inputs.test_folder }}" = "smoke" ]; then
+            npx playwright test tests/smoke
+          elif [ "${{ github.event.inputs.test_folder }}" = "regression" ]; then
+            npx playwright test tests/regression
+          else
+            npx playwright test
+          fi
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
