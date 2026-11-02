@@ -41,11 +41,9 @@ jobs:
         run: npm ci
 
       - name: Install Playwright Browsers
-        uses: microsoft/playwright-actions@v1
-        with:
-          # Le indicamos explícitamente que solo descargue chromium
-          # para no perder tiempo con webkit o firefox
-          browsers: chromium  
+        run: npx playwright install chromium
+        env:
+          CI: true
 
       - name: Run Playwright tests
         run: |
