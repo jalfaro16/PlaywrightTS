@@ -15,7 +15,7 @@ test.describe('Login Tests', () => {
 
 
   test.beforeEach(async ({ loginPage }) => {
-    await test.step('Navegar a la página de login', async () => {
+    await test.step('Navigate to login page', async () => {
     await loginPage.goto();
   });});
 

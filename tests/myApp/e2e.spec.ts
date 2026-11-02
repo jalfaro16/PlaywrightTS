@@ -18,6 +18,7 @@ await test.step('Go to Login Page', async () => {
 
     test('Add items to shopping cart and confir purchase',{ tag: '@regression' }, async ({ page, loginPage, homePage, checkoutPage, purchasePage }) => {
       await loginPage.login(user, pass);
+      //await page.waitForTimeout(5000);
       //Verify URL after login.
       await expect(page).toHaveURL('/angularpractice/shop');
 
@@ -26,6 +27,16 @@ await test.step('Go to Login Page', async () => {
       const count = data.products.length;
       const expectedPattern = homePage.getCheckoutPattern(count);
       await expect(homePage.checkOutButton).toHaveText(expectedPattern);
+
+      // Pausa la ejecución hasta que el estado del elemento sea visible
+      await homePage.checkOutButton.waitFor({ state: 'visible' });
+
+      // Le da un margen de 10 segundos (10000ms) únicamente a la espera de este botón
+      await homePage.checkOutButton.waitFor({ timeout: 10000 });  
+
+      // Espera explícitamente a que el botón deje de estar 'disabled'
+      await expect(homePage.checkOutButton).toBeEnabled();
+
       await homePage.checkOutButton.click();
 
       await expect(checkoutPage.getPageTitle()).toBeVisible();
